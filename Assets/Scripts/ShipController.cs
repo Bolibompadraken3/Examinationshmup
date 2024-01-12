@@ -35,7 +35,7 @@ public class ShipController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space) && Time.time > nextShotTime)
         {
-            Shoot();
+             Shoot();
             nextShotTime = Time.time + shotDelay;
         }
     }
