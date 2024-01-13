@@ -4,7 +4,8 @@ public class ShipController : MonoBehaviour
 {
     public float speed = 5f;
     public GameObject projectilePrefab;
-    public Transform projectileSpawnPoint;
+    public Transform shootingPoint;
+    public float projectileSpeed = 10f;
 
     private float shotDelay = 0.1f;
     private float nextShotTime = 0f;
@@ -33,23 +34,23 @@ public class ShipController : MonoBehaviour
 
     void HandleShootingInput()
     {
-        if (Input.GetKey(KeyCode.Space) && Time.time > nextShotTime)
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > nextShotTime)
         {
-             Shoot();
+            Shoot();
             nextShotTime = Time.time + shotDelay;
         }
     }
 
     void Shoot()
     {
-        // Instantiate a projectile at the spawn point
-        GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
+        // Instantiate a projectile at the shooting point
+        GameObject projectile = Instantiate(projectilePrefab, shootingPoint.position, Quaternion.identity);
 
-        // Set the projectile's direction
+        // Set the projectile's direction based on the shooter's rotation
         ProjectileController projectileController = projectile.GetComponent<ProjectileController>();
         if (projectileController != null)
         {
-            projectileController.SetDirection(Vector3.right); // Set the direction to the ship's local right
+            projectileController.SetDirection(Vector3.right * projectileSpeed);
         }
     }
 }
